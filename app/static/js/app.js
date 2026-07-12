@@ -28,12 +28,14 @@ function showAlert(message, type = 'error') {
     const errorText = document.getElementById('alert-error-text');
     
     errorText.innerText = message;
-    errorAlert.className = `alert ${type}`;
-    errorAlert.style.display = 'flex';
+    errorAlert.className = `alert ${type} active`;
 }
 
 function hideAlert() {
-    document.getElementById('alert-error').style.display = 'none';
+    const errorAlert = document.getElementById('alert-error');
+    if (errorAlert) {
+        errorAlert.classList.remove('active');
+    }
 }
 
 async function handleShorten(event) {

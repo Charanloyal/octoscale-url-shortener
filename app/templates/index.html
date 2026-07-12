@@ -13,6 +13,14 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <!-- Animated background wrapper -->
+    <div class="background-wrapper">
+        <div class="grid-overlay"></div>
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
     <!-- SVG Gradient for Logo -->
     <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
         <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -137,9 +145,9 @@
                         </div>
                     </div>
 
-                    <div style="margin-top: 1.5rem; background: rgba(17,24,39,0.5); padding: 1.25rem; border-radius: 16px; border: 1px solid var(--glass-border);">
-                        <h4 style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.25rem;">Destination URL</h4>
-                        <a href="#" id="dest-url" target="_blank" style="color: #22d3ee; word-break: break-all; text-decoration: none; font-size: 0.95rem;">-</a>
+                    <div class="dest-card">
+                        <h4>Destination URL</h4>
+                        <a href="#" id="dest-url" target="_blank">-</a>
                     </div>
 
                     <div class="chart-container">
