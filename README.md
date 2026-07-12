@@ -1,5 +1,9 @@
 # OctoScale: High-Scale Distributed URL Shortener
 
+🟢 **Live Demo**: [https://octoscale-web.onrender.com](https://octoscale-web.onrender.com)
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Charanloyal/octoscale-url-shortener)
+
 OctoScale is a production-ready, ultra-high-throughput URL shortening service engineered to handle **10,000+ requests per second**. It is designed with clean Object-Oriented Programming (OOP) principles, a layered clean architecture, a write-through caching strategy using Redis, database durability using PostgreSQL, and sliding window rate limiting for protection.
 
 A modern, responsive glassmorphic dashboard is built-in to allow users to shorten links, copy them, and view real-time click analytics (including referrer breakdown and browser distribution charts).
