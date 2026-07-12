@@ -10,7 +10,7 @@ settings.DATABASE_URL = "sqlite+aiosqlite:///:memory:"
 
 from app.database import Base, get_db
 from app.redis import get_redis, redis_manager
-from app.main import app
+from app.main import app as fastapi_app
 
 # Create test engine using SQLite in-memory database
 test_engine = create_async_engine(
@@ -25,6 +25,9 @@ TestAsyncSessionLocal = async_sessionmaker(
     expire_on_commit=False,
     class_=AsyncSession
 )
+# Override AsyncSessionLocal in app.database module for background tasks
+import app.database
+app.database.AsyncSessionLocal = TestAsyncSessionLocal
 
 # ----------------------------------------------------
 # Mock Redis Implementation
@@ -138,8 +141,8 @@ async def override_get_db() -> AsyncGenerator[AsyncSession, None]:
 async def override_get_redis() -> MockRedis:
     return mock_redis_client
 
-app.dependency_overrides[get_db] = override_get_db
-app.dependency_overrides[get_redis] = override_get_redis
+fastapi_app.dependency_overrides[get_db] = override_get_db
+fastapi_app.dependency_overrides[get_redis] = override_get_redis
 
 
 @pytest.fixture(scope="function", autouse=True)
@@ -171,7 +174,7 @@ async def client() -> AsyncGenerator[AsyncClient, None]:
     redis_manager.redis = mock_redis_client
     
     async with AsyncClient(
-        transport=ASGITransport(app=app),
+        transport=ASGITransport(app=fastapi_app),
         base_url="http://test"
     ) as ac:
         yield ac

@@ -1,4 +1,5 @@
 import time
+from typing import Optional
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends, Request, BackgroundTasks, status
 from fastapi.responses import RedirectResponse, HTMLResponse
@@ -93,6 +94,23 @@ app.include_router(api_v1_router, prefix="/api/v1")
 async def serve_dashboard(request: Request):
     return templates.TemplateResponse(request=request, name="index.html")
 
+async def record_click_background(short_code: str, referrer: Optional[str], user_agent: Optional[str]):
+    """Background task to record clicks in a new transaction context to avoid closed-session errors."""
+    from app.database import AsyncSessionLocal
+    from app.repositories.url_repository import URLRepository
+    from app.services.url_service import URLService
+    from app.redis import redis_manager
+
+    async with AsyncSessionLocal() as db:
+        repo = URLRepository(db)
+        redis_client = await redis_manager.get_client()
+        service = URLService(repo, redis_client)
+        try:
+            await service.record_click(short_code, referrer, user_agent)
+            await db.commit()
+        except Exception as e:
+            logger.error("background_click_failed", error=str(e))
+
 # High-Performance Redirect Route (at Root level)
 @app.get("/{short_code}", dependencies=[Depends(rate_limiter)])
 async def redirect_to_original(
@@ -112,7 +130,7 @@ async def redirect_to_original(
         referrer = request.headers.get("referer")
         user_agent = request.headers.get("user-agent")
         background_tasks.add_task(
-            service.record_click, 
+            record_click_background, 
             short_code=short_code, 
             referrer=referrer, 
             user_agent=user_agent
