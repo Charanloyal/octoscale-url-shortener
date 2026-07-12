@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: octoscale-web
+    runtime: docker
+    plan: free
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: BASE_URL
+        value: https://octoscale-web.onrender.com # Change this to your final Render web URL once deployed
+      - key: DATABASE_URL
+        fromDatabase:
+          name: octoscale-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: octoscale-redis
+          type: redis
+          property: connectionString
+
+databases:
+  - name: octoscale-db
+    plan: free
+
+interfaces:
+  - type: redis
+    name: octoscale-redis
+    plan: free
