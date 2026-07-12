@@ -14,15 +14,13 @@ services:
           property: connectionString
       - key: REDIS_URL
         fromService:
+          type: keyvalue
           name: octoscale-redis
-          type: redis
           property: connectionString
 
 databases:
   - name: octoscale-db
     plan: free
-
-interfaces:
-  - type: redis
+  - type: keyvalue
     name: octoscale-redis
     plan: free
