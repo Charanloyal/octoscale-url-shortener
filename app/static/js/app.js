@@ -236,12 +236,12 @@ function renderReferrerChart(clicks) {
             datasets: [{
                 data: counts,
                 backgroundColor: [
-                    '#6366f1', // Indigo
-                    '#06b6d4', // Cyan
-                    '#3b82f6', // Blue
-                    '#a855f7', // Purple
-                    '#14b8a6', // Teal
-                    '#ec4899'  // Pink
+                    '#d4af37', // Metallic Gold
+                    '#ebd080', // Soft Gold
+                    '#aa7c11', // Dark Bronze/Gold
+                    '#f3e5ab', // Pale Champagne
+                    '#f0d575', // Amber Yellow
+                    '#b8860b'  // Dark Goldenrod
                 ],
                 borderWidth: 0,
                 hoverOffset: 4
