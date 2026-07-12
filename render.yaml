@@ -6,6 +6,8 @@ services:
     envVars:
       - key: APP_ENV
         value: production
+      - key: PORT
+        value: 8000
       - key: BASE_URL
         value: https://octoscale-web.onrender.com # Change this to your final Render web URL once deployed
       - key: DATABASE_URL
