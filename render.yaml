@@ -18,9 +18,11 @@ services:
           name: octoscale-redis
           property: connectionString
 
-databases:
-  - name: octoscale-db
-    plan: free
   - type: keyvalue
     name: octoscale-redis
+    plan: free
+    ipAllowList: [] # Restricts access to internal network only for security
+
+databases:
+  - name: octoscale-db
     plan: free
